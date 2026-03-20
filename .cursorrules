@@ -1,0 +1,57 @@
+# .cursorrules — PW Study App
+
+## Tech Stack
+- **Framework**: Next.js 16 (App Router, RSC by default)
+- **Language**: TypeScript (strict mode)
+- **Styling**: Tailwind CSS v4 (PostCSS plugin, `@theme inline`, oklch colors)
+- **UI Library**: Shadcn UI (radix-maia style, Hugeicons icon library)
+- **Database**: Supabase (client + SSR via `@supabase/ssr`)
+- **AI**: Vercel AI SDK (`ai` + `@ai-sdk/google`) with Google Gemini 1.5 Flash
+- **Validation**: Zod v4
+- **Math Rendering**: KaTeX via `remark-math` + `rehype-katex`
+- **Markdown**: `react-markdown`
+- **Animation**: Framer Motion
+- **Toasts**: Sonner
+
+## Project Conventions
+
+### File Structure
+- `app/` — Next.js App Router pages and API routes
+- `components/` — Reusable React components
+- `components/ui/` — Shadcn UI primitives (auto-generated, do not edit)
+- `context/` — React Context providers
+- `lib/` — Utility functions, schemas, data helpers
+- `hooks/` — Custom React hooks
+- `public/` — Static assets
+
+### Import Alias
+- `@/*` maps to the **project root** (no `src/` directory)
+- Example: `import { cn } from "@/lib/utils"`
+
+### Component Patterns
+- Server Components by default; add `"use client"` only when needed (hooks, browser APIs, interactivity)
+- Use Shadcn UI primitives (`Card`, `Button`, `Input`, `Badge`) before building custom components
+- Compose pages from focused, reusable components
+
+### Styling
+- Use Tailwind utility classes exclusively; avoid inline styles
+- Use CSS variables from `globals.css` for theming (e.g., `bg-background`, `text-foreground`)
+- Dark mode via `next-themes` with class strategy (`.dark`)
+
+### AI / LLM Guidelines
+- Use Vercel AI SDK patterns (`generateObject`, `streamText`, `useChat`)
+- Gemini model: `gemini-1.5-flash` for cost-efficiency
+- Always validate AI output with Zod schemas
+- Server Actions for non-streaming AI calls; Route Handlers for streaming
+
+### Persona: Socratic Tutor
+- The doubt-solver AI **never gives final answers**
+- It responds with guided hints, counter-questions, and step-by-step nudges
+- It supports LaTeX math in responses (rendered via KaTeX)
+- It can accept image uploads for vision-based questions
+
+### Code Style
+- Prettier with `tailwindcss` plugin for class sorting
+- ESLint with `eslint-config-next`
+- Prefer `const` + arrow functions for components
+- Use `cn()` from `@/lib/utils` for conditional class merging
