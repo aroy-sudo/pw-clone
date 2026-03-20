@@ -9,7 +9,7 @@ export default function LandingPage() {
 
   const handleDevAccess = () => {
     Cookies.set('dev_mode', 'true');
-    router.push('/store');
+    router.push('/study');
   };
 
   return (
