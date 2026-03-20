@@ -2,6 +2,12 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+    // Dev Mode Bypass
+    const isDevMode = process.env.NODE_ENV === 'development' || request.cookies.get('dev_mode')?.value === 'true';
+    if (isDevMode) {
+        return NextResponse.next({ request });
+    }
+
     let supabaseResponse = NextResponse.next({ request })
 
     const supabase = createServerClient(

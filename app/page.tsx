@@ -1,7 +1,17 @@
+"use client";
 import Link from 'next/link'
 import { BookOpen, BrainCircuit, Trophy, ArrowRight } from 'lucide-react'
+import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie';
 
 export default function LandingPage() {
+  const router = useRouter();
+
+  const handleDevAccess = () => {
+    Cookies.set('dev_mode', 'true');
+    router.push('/store');
+  };
+
   return (
     <div className="flex flex-col items-center justify-center w-full px-4 py-20">
 
@@ -20,6 +30,12 @@ export default function LandingPage() {
           >
             Start Learning <ArrowRight size={20} />
           </Link>
+          <button
+            onClick={handleDevAccess}
+            className="flex items-center gap-2 bg-transparent border border-zinc-700 text-zinc-400 px-8 py-4 rounded-full font-bold hover:bg-zinc-800 hover:text-white transition-all"
+          >
+            Dev Access
+          </button>
         </div>
       </section>
 
