@@ -16,7 +16,7 @@ export default async function Navbar() {
                 <div className="flex items-center gap-4">
                     {user ? (
                         <>
-                            <Link href="/dashboard" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                            <Link href="/study" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
                                 Dashboard
                             </Link>
                             <form action={signout}>
