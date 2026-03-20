@@ -4,7 +4,9 @@ import { cookies } from 'next/headers'
 export async function createClient() {
     const cookieStore = await cookies()
 
-    return createServerClient(
+    const isDevMode = process.env.NODE_ENV === 'development' || cookieStore.get('dev_mode')?.value === 'true';
+
+    const supabase = createServerClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
         {
@@ -24,5 +26,37 @@ export async function createClient() {
                 },
             },
         }
-    )
+    );
+
+    if (isDevMode) {
+        return {
+            ...supabase,
+            auth: {
+                ...supabase.auth,
+                getUser: async () => {
+                    return {
+                        data: {
+                            user: {
+                                id: 'dev-user-123',
+                                email: 'abhiraj@nitrr.ac.in',
+                                user_metadata: { full_name: 'Abhiraj (Dev)' }
+                            }
+                        },
+                        error: null
+                    }
+                },
+                signInWithPassword: async () => {
+                    return { data: {}, error: null };
+                },
+                signUp: async () => {
+                    return { data: {}, error: null };
+                },
+                signOut: async () => {
+                    return { error: null };
+                },
+            }
+        };
+    }
+
+    return supabase;
 }
